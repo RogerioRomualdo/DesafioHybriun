@@ -1,11 +1,13 @@
 "use strict";
 
+const { sequelize } = require("../../models/worker");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("logins", {
+    await queryInterface.createTable("clockins", {
       id: {
         type: Sequelize.INTEGER,
-        alloNull: false,
+        allowNull: false,
         primaryKey: true,
         autoIncrement: true,
       },
@@ -13,16 +15,22 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: "workers", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
-      password: {
-        type: Sequelize.STRING(32),
+      checkIn: {
+        type: Sequelize.TIME,
         allowNull: false,
       },
-      isAdmin: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
+      checkOut: {
+        type: Sequelize.TIME,
+        allowNull: true,
+      },
+      breakStart: {
+        type: Sequelize.TIME,
+        allowNull: true,
+      },
+      breakEnd: {
+        type: Sequelize.TIME,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -36,6 +44,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("logins");
+    await queryInterface.dropTable("clockins");
   },
 };

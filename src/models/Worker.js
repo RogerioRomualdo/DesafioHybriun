@@ -22,6 +22,16 @@ class Worker extends Model {
       foreignKey: "occupationId",
       as: "occupation",
     });
+
+    this.hasOne(models.Login, {
+      foreignKey: "workerId",
+      as: "login",
+    });
+
+    this.hasMany(models.Clockin, {
+      foreignKey: "workerId",
+      as: "clockins",
+    });
   }
 }
 

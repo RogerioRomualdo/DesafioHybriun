@@ -1,29 +1,28 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Occupation extends Model {
+class Clockin extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: DataTypes.STRING,
-        shiftStart: DataTypes.TIME,
-        shiftEnd: DataTypes.TIME,
+        checkIn: DataTypes.TIME,
+        checkOut: DataTypes.TIME,
         breakStart: DataTypes.TIME,
         breakEnd: DataTypes.TIME,
       },
       {
         sequelize,
-        tableName: "occupations",
+        tableName: "clockins",
       }
     );
   }
 
   //Relacionamentos
   static associate(models) {
-    this.hasMany(models.Worker, {
-      foreignKey: "occupationId",
+    this.belongsTo(models.Worker, {
+      foreignKey: "workerId",
       as: "worker",
     });
   }
 }
 
-module.exports = Occupation;
+module.exports = Clockin;
