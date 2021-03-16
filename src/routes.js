@@ -10,6 +10,7 @@ const routes = express.Router();
 //Rotas
 routes.get("/workers", workerController.index);
 routes.post("/workers", workerController.store);
+routes.put("/:id/workers", workerController.update);
 
 routes.get("/occupations", occupationController.index);
 routes.post("/occupations", occupationController.store);
