@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const dbConfig = require("../config/database.js");
+const dbConfig = require("../config/database");
 
 //Import dos models
 const Worker = require("../models/Worker");

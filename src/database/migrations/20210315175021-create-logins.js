@@ -17,19 +17,11 @@ module.exports = {
         onDelete: "CASCADE",
       },
       password: {
-        type: Sequelize.STRING(32),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       isAdmin: {
         type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
       },
     });

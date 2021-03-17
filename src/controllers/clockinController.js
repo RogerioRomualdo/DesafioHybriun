@@ -1,5 +1,9 @@
 const Clockin = require("../models/Clockin");
 const Worker = require("../models/Worker");
+const {
+  validateClockinStore,
+  validateClockinUpdate,
+} = require("../helpers/validation");
 
 module.exports = {
   async index(req, res) {
@@ -8,11 +12,11 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { id } = req.params;
-    const { checkIn, checkOut, breakStart, breakEnd } = req.body;
-
     try {
-      if (!checkIn && !checkOut && !breakStart && !breakEnd) throw err;
+      if (!validateClockinStore(req.body, req.params)) throw err;
+
+      const { id } = req.params;
+      const { checkIn, checkOut, breakStart, breakEnd } = req.body;
       const { id: workerId } = await Worker.findOne({ where: { id } });
 
       Clockin.create({ workerId, checkIn, checkOut, breakStart, breakEnd });
@@ -23,29 +27,29 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { workerId } = req.params;
-    const { checkIn, checkOut, breakStart, breakEnd } = req.body;
-
     try {
-      if (checkIn || checkOut || breakStart || breakEnd) {
-        const clockin = await Clockin.findOne({
-          attributes: ["id"],
-          order: [["createdAt", "DESC"]],
-          include: {
-            association: "worker",
-            attributes: [],
-            where: { id: workerId },
-          },
-        });
+      if (!validateClockinUpdate()) throw err;
 
-        await Clockin.update(
-          { workerId, checkIn, checkOut, breakStart, breakEnd },
-          { where: { id: clockin.id } }
-        );
-        res.json("O clockin foi atualizado!");
-      } else throw new err();
+      const { workerId } = req.params;
+      const { checkIn, checkOut, breakStart, breakEnd } = req.body;
+
+      const clockin = await Clockin.findOne({
+        attributes: ["id"],
+        order: [["createdAt", "DESC"]],
+        include: {
+          association: "worker",
+          attributes: [],
+          where: { id: workerId },
+        },
+      });
+
+      await Clockin.update(
+        { workerId, checkIn, checkOut, breakStart, breakEnd },
+        { where: { id: clockin.id } }
+      );
+
+      res.json("O clockin foi atualizado!");
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: "Server error!" });
     }
   },

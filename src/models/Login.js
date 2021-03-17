@@ -4,7 +4,7 @@ class Login extends Model {
   static init(sequelize) {
     super.init(
       {
-        password: DataTypes.STRING(32),
+        password: DataTypes.STRING,
         isAdmin: DataTypes.BOOLEAN,
       },
       {

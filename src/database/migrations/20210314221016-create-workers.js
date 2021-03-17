@@ -16,6 +16,7 @@ module.exports = {
       email: {
         type: Sequelize.STRING(32),
         allowNull: false,
+        unique: true,
       },
       cpf: {
         type: Sequelize.STRING(11),
@@ -32,13 +33,15 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      createdAt: {
-        type: Sequelize.DATE,
+      isActive: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
-      updatedAt: {
-        type: Sequelize.DATE,
+      createdAt: {
+        type: Sequelize.DATEONLY,
         allowNull: false,
+        defaultValue: Sequelize.literal("CURRENT_DATE"),
       },
     });
   },

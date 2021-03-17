@@ -33,12 +33,9 @@ module.exports = {
         allowNull: true,
       },
       createdAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
+        defaultValue: Sequelize.literal("CURRENT_DATE"),
       },
     });
   },
